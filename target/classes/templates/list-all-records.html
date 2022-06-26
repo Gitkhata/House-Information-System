@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+
+<!--<head th:replace="fragments/header :: header-css">-->
+<head>
+    <title>List owner details</title>
+</head>
+<body>
+<!--<div th:replace="fragments/header :: header"></div>-->
+
+<section layout:fragment="content">
+    <div class="container-fluid my-2">
+        <div class="card-body">
+            <table class="table table-bordered table-hover" id="dataTable">
+                <div class="container-fluid text-center">
+                    <h1>जग्गाधनी</h1>
+                </div>
+                <thead>
+                <tr>
+                    <th><a class="bi bi-sort-up"
+                           th:href="@{'/house-info/page/' +${currentPage} + '?sortingField=id&sortDirection='+ ${revereseSortDirection}}">Id
+                    </a></th>
+                    <th>
+                        <a th:href="@{'/house-info/page/' +${currentPage} + '?sortingField=firstName&sortDirection='+ ${revereseSortDirection}}">F.name</a>
+                    </th>
+                    <th>
+                        <a th:href="@{'/house-info/page/' +${currentPage} + '?sortingField=lastName&sortDirection='+ ${revereseSortDirection}}"></a>L.name
+                    </th>
+                    <th>
+                        <a th:href="@{'/house-info/page/' +${currentPage} + '?sortingField=address&sortDirection='+ ${revereseSortDirection}}"></a>Address
+                    </th>
+                    <th>Nagarikta no.</th>
+                    <th>
+                        <a th:href="@{'/house-info/page/' +{currentPage} + '?sortingField=nagariktaIssuedDistrict&sortDirection='+ ${revereseSortDirection}}"></a>NID
+                    </th>
+                    <th>Contact no.</th>
+                    <th colspan="2" class="text-center">Action</th>
+                </tr>
+                <tbody>
+                <tr th:each="tempList: ${listHouseInfo}">
+                    <td th:text="${tempList.id}"></td>
+                    <td th:text="${tempList.firstName}"></td>
+                    <td th:text="${tempList.lastName}"></td>
+                    <td th:text="${tempList.currentAddress}"></td>
+                    <td th:text="${tempList.citizenShipNo}"></td>
+                    <td th:text="${tempList.citizenShipIssuedDistrict}"></td>
+                    <td th:text="${tempList.contactNumber}"></td>
+                    <td>
+                        <a th:href="@{/house-info/edit(nagarikId=${tempList.id})}"
+                           class="btn btn-outline-info">Edit</a>
+                    </td>
+                    <td>
+                        <a th:href="@{/house-info/delete(nagarikId=${tempList.id})}" class="btn btn-outline-danger">Delete</a>
+                    </td>
+                    <!--                    </div>-->
+                </tr>
+                </tbody>
+            </table>
+
+            <!--pagination here-->
+
+            <div class="container text-center mb-5">
+                Total Records: [[${totalElements}]] - Page [[${currentPage}]] of
+                [[${totalPages}]] &nbsp;<br>
+
+                <!--                    <div><i>Sorted by [[${sortingField}]] in [[${sortDirection}]] order</i></div>-->
+
+                <!-- display a hyperlink that allows the user to navigate to the first page: -->
+                <!--if the current page is 1, then it is showing a text – not a link.  -->
+
+                <div th:if="${totalPages>1}"
+                     th:with="appendToEndOfUrl = '?sortingField='+ ${sortingField}+'&sortDirection='+${sortDirection}">
+                    <nav>
+                        <ul class="pagination justify-content-center flex-wrap">
+                            <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+                                <a class="page-link" th:href="@{'/house-info/page/1' +${appendToEndOfUrl}}">First</a>
+                            </li>
+
+                            <!--                    <a th:if="${currentPage > 1}"-->
+                            <!--                       th:href="@{'/house-info/page/1' +'?sortingField='+ ${sortingField}+'&sortDirection='+${sortDirection}}">First</a>-->
+                            <!--                    <span th:unless="${currentPage > 1}">First</span> &nbsp;&nbsp;-->
+
+
+                            <!--  show the link to navigate to the previous page: -->
+
+                            <li th:class="${currentPage>1 ? 'page-item' : 'page-item disabled'}">
+                                <a class="page-link"
+                                   th:href="@{'/house-info/page/' + ${currentPage - 1} +${appendToEndOfUrl}}">Previous</a>
+                            </li>
+
+                            <!--                        <a th:if="${currentPage > 1}"-->
+                            <!--                           th:href="@{'/house-info/page/' + ${currentPage - 1} +'?sortingField='+ ${sortingField}+'&sortDirection='+${sortDirection}}">Previous</a>-->
+                            <!--                        <span th:unless="${currentPage > 1}">Previous</span>&nbsp;-->
+
+
+                            <!-- display links that allow the users to navigate to a specific page, in the range from page 1 to total pages -->
+
+                            <!-- if total pages are <=10 then display all pages-->
+                            <th:block th:if="${totalPages<=10}">
+                                <li th:each="i: ${#numbers.sequence(1,totalPages)}"
+                                    th:class="${currentPage !=i ? 'page-item': 'page-item active'}">
+                                    <a class="page-link" th:href="@{'/house-info/page/'+${i} + ${appendToEndOfUrl}}">[[${i}]]</a>
+                                </li>
+                            </th:block>
+
+                            <th:block th:if="${totalPages > 10}">
+                                <th:block th:if="${currentPage <= 5 || currentPage > totalPages - 4}">
+                                    <li th:each="i: ${#numbers.sequence(1,5)}"
+                                        th:class="${currentPage !=i ? 'page-item': 'page-item active'}">
+                                        <a class="page-link"
+                                           th:href="@{'/house-info/page/'+${i} + ${appendToEndOfUrl}}">[[${i}]]</a>
+                                    </li>
+                                    <a class="page-link"
+                                       th:href="@{'/house-info/page/'+6 + ${appendToEndOfUrl}}">...</a>
+
+                                    <li th:each="i: ${#numbers.sequence(totalPages - 4,totalPages)}"
+                                        th:class="${currentPage !=i ? 'page-item': 'page-item active'}">
+                                        <a class="page-link"
+                                           th:href="@{'/house-info/page/'+${i} + ${appendToEndOfUrl}}">[[${i}]]</a>
+                                    </li>
+                                </th:block>
+
+                                <th:block th:if="${currentPage > 5 && currentPage < totalPages - 4}">
+                                    <a class="page-link"
+                                       th:href="@{'/house-info/page/'+${currentPage - 5} + ${appendToEndOfUrl}}">...</a>
+
+                                    <li th:each="i: ${#numbers.sequence(currentPage - 4,currentPage + 4)}"
+                                        th:class="${currentPage !=i ? 'page-item': 'page-item active'}">
+                                        <a class="page-link"
+                                           th:href="@{'/house-info/page/'+${i} + ${appendToEndOfUrl}}">[[${i}]]</a>
+                                    </li>
+
+                                    <a class="page-link"
+                                       th:href="@{'/house-info/page/'+${currentPage + 5} + ${appendToEndOfUrl}}">...</a>
+                                </th:block>
+
+                            </th:block>
+                            <!--<span th:each="i: ${#numbers.sequence(1,totalPages)}"> <a
+                                    th:if="${i!=currentPage}"
+                                    th:href="@{'/house-info/page/'+${i} + '?sortingField='+ ${sortingField}+'&sortDirection='+${sortDirection}}">[[${i}]]</a>
+                    <span th:unless="${i!=currentPage}">[[${i}]]</span>
+                        </span>-->
+
+
+                            <!-- show the Next page hyperlink: -->
+
+                            <li th:class="${currentPage < totalPages ?'page-item' : 'page-item disabled'}">
+                                <a class="page-link"
+                                   th:href="@{'/house-info/page/' + ${currentPage + 1} + ${appendToEndOfUrl}}">Next</a>
+                            </li>
+
+                            <!--<a th:if="${currentPage < totalPages}"
+                               th:href="@{'/house-info/page/' + ${currentPage + 1} + '?sortingField='+ ${sortingField}+'&sortDirection='+${sortDirection}}">Next</a>
+                            <span th:unless="${currentPage < totalPages}">Next</span>&nbsp;&nbsp;-->
+
+
+                            <!-- display the Last page hyperlink: -->
+
+                            <li th:class="${currentPage < totalPages ? 'page-item': 'page-item disabled'}">
+                                <a class="page-link"
+                                   th:href="@{'/house-info/page/' + ${totalPages} + ${appendToEndOfUrl}}">Last</a>
+                            </li>
+                            <!--  <a th:if="${currentPage < totalPages}"
+                                 th:href="@{'/house-info/page/' + ${totalPages}+ '?sortingField='+ ${sortingField}+'&sortDirection='+${sortDirection}}">Last</a>
+                              <span th:unless="${currentPage < totalPages}">Last</span>-->
+
+
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+
+
+            <!--       pagination ends here-->
+
+            <!--<h1>Land Info</h1>-->
+        </div>
+        <div class="card-body">
+            <table id="example2" class="table table-bordered table-hover ">
+                <div class="container-fluid text-center">
+                    <h1>जग्गा विवरण</h1>
+                </div>
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Kitta Number</th>
+                    <th>Land Area</th>
+                    <th>VDC/Munc</th>
+                    <th>Ward No.</th>
+                    <th colspan="2" class="text-center">Action</th>
+                </tr>
+                <tbody>
+
+                <tr th:each="tempList: ${listHouseInfo}">
+                    <td th:text="${tempList.id}"></td>
+                    <td th:text="${tempList.firstName}+ ' '+${tempList.lastName}"></td>
+                    <td th:text="${tempList.kittaNumber}"></td>
+                    <td th:text="${tempList.landArea}"></td>
+                    <td th:text="${tempList.newMunicipalityName}"></td>
+                    <td th:text="${tempList.newWardNo}"></td>
+                    <td>
+                        <a th:href="@{/house-info/edit(nagarikId=${tempList.id})}"
+                           class="btn btn-outline-info">Edit</a>
+                    </td>
+                    <td>
+                        <a th:href="@{/house-info/delete(nagarikId=${tempList.id})}" class="btn btn-outline-danger">Delete</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!--        ========================    -->
+        <div class="card-body">
+            <table id="example3" class="table table-bordered table-hover ">
+                <div class="container-fluid text-center">
+                    <h1>घर विवरण</h1>
+                </div>
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>House no.</th>
+                    <th>Plinth</th>
+                    <th>Area covered</th>
+                    <th>Storeyed</th>
+                    <th>Latitude</th>
+                    <th>Longitude</th>
+                    <th colspan="2" class="text-center">Action</th>
+                </tr>
+                <tbody>
+
+                <tr th:each="tempList: ${listHouseInfo}">
+                    <td th:text="${tempList.id}"></td>
+                    <td th:text="${tempList.houseNumber}"></td>
+                    <td th:text="${tempList.plinthArea}"></td>
+                    <td th:text="${tempList.totalAreaCoveredByHouse}"></td>
+                    <td th:text="${tempList.totalStoreyed}"></td>
+                    <td th:text="${tempList.houseLatitude}"></td>
+                    <td th:text="${tempList.houseLongitude}"></td>
+                    <td>
+                        <a th:href="@{/house-info/edit(nagarikId=${tempList.id})}"
+                           class="btn btn-outline-info">Edit</a>
+                    </td>
+                    <td>
+                        <a th:href="@{/house-info/delete(nagarikId=${tempList.id})}"
+                           class="btn btn-outline-danger">Delete</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <!--        ======================= -->
+
+
+</section>
+
+
+<!-- ======================================================================== -->
+
+
+<!--<div th:replace="fragments/footer :: footer"></div>-->
+
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+          integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
+          crossorigin="anonymous">
+
+
+    <!--np date picker  -->
+    <link rel="stylesheet" th:href="@{/css/nepaliDatePicker.min.css}">
+    <link rel="stylesheet" href="https://unpkg.com/nepali-date-picker@2.0.1/dist/nepaliDatePicker.min.css"
+          crossorigin="anonymous"/>
+    <title>Add House Owner</title>
+</head>
+<body>
+<!--<div th:replace="fragments/header :: header"></div>-->
+<section layout:fragment="content">
+<div class="container-fluid text-center">
+    <h3>Owner Info</h3>
+    <hr>
+</div>
+<div class="container-fluid mx-3 my-3">
+    <form th:action="@{/owners/save}" th:object="${houseOwner}" class="needs-validation" method="post"
+          enctype="multipart/form-data" novalidate>
+
+        <input type="hidden" th:field="*{id}"/>
+
+        <div class="form-row container-fluid">
+            <div class="col-md-4 mb-3">
+                <label for="firstName">First name</label>
+                <input type="text" class="form-control" id="firstName"
+                       aria-describedby="inputGroupPrepend" th:field="*{firstName}" placeholder="First name"
+                       value="Birtamod Nagarpalika" required>
+                <div class="invalid-feedback">Required</div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label for="middleName">Middle name</label>
+                <input type="text" class="form-control" id="middleName"
+                       placeholder="Middle name" th:field="*{middleName}" value="">
+                <div class="valid-feedback">Looks good!</div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label for="lastName">Last name</label>
+                <input type="text" class="form-control" id="lastName"
+                       placeholder="Last name" th:field="*{lastName}" value="Btm" required>
+                <div class="valid-feedback">Looks good!</div>
+                <div class="invalid-feedback">के थरी ?</div>
+            </div>
+        </div>
+        <div>
+            <div class="form-row container-fluid">
+                <div class="col-md-4 mb-3">
+                    <label for="address">Address</label>
+                    <input type="text" class="form-control" id="address"
+                           aria-describedby="inputGroupPrepend"
+                           placeholder="Current Address"
+                           th:field="*{currentAddress}" placeholfer="Wada no. 36, Hastinapur, Milkyway" required>
+                    <div class="invalid-feedback">Required</div>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label for="validationCustom04">Citizenship number</label>
+                    <input type="text" class="form-control" id="validationCustom04"
+                           placeholder="Citizenship number" th:field="*{citizenShipNo}" value="1/4/69">
+                    <div class="valid-feedback">Looks good!</div>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label>Citizenship Issued
+                        District</label>
+                    <select class="form-control" th:field="*{citizenShipIssuedDistrict}" required>
+                        <option value="">Choose...</option>
+                        <option value="Taplejung">TAPLEJUNG</option>
+                        <option value="Panchthar">PANCHTHAR</option>
+                        <option value="Ilam">ILAM</option>
+                        <option value="Jhapa">JHAPA</option>
+                    </select>
+                    <div class="valid-feedback">Looks good!</div>
+                    <div class="invalid-feedback">required</div>
+                </div>
+
+                <div class="form-row container-fluid">
+                    <div class="col-md-4 mb-3">
+                        <label>Citizenship issued date</label>
+                        <input type="text" class="form-control date-picker"
+                               name="nepaliNagariktaIssuedDate"
+                               aria-describedby="inputGroupPrepend" placeholder="२०३६ साल"
+                               th:field="*{citizenShipIssuedDate}" value="">
+                        <div class="valid-feedback">Looks good!</div>
+                        <div class="invalid-feedback">Required</div>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label>Contact number</label>
+                        <input type="text" class="form-control" name="contactNumber"
+                               aria-describedby="inputGroupPrepend" placeholder="98xxxx" value=""
+                               th:field="*{contactNumber}"
+                               required>
+                        <div class="valid-feedback">Looks good!</div>
+                        <div class="invalid-feedback">Required</div>
+                    </div>
+                </div>
+                <hr>
+            </div>
+        </div>
+        <input type="submit" class="btn btn-primary" value="Submit"/>
+    </form>
+</div>
+<!--		======================================================================================		-->
+
+<script>
+    $('.date-picker').nepaliDatePicker({
+        dateFormat: "%D, %M %d, %y",
+        closeOnDateSelect: true
+    });
+</script>
+
+<script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function () {
+        'use strict';
+        window.addEventListener('load',
+            function () {
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document
+                    .getElementsByClassName('needs-validation');
+                // Loop over them and prevent submission
+                var validation = Array.prototype.filter.call(forms,
+                    function (form) {
+                        form.addEventListener('submit', function (
+                            event) {
+                            if (form.checkValidity() === false) {
+                                event.preventDefault();
+                                event.stopPropagation();
+                            }
+                            form.classList.add('was-validated');
+                        }, false);
+                    });
+            }, false);
+    })();
+
+</script>
+
+<!-- ============================================================== -->
+
+<!-- nepali date picker-->
+<!--<script th:src="@{/js/jquery.min.js}"></script>-->
+<!--<script th:src="@{/js/jquery.nepaliDatePicker.min.js}"></script>-->
+<!-- this should go after your </body> -->
+
+</section>
+</body>
+</html>

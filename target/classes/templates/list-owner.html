@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+
+<!--<head th:replace="fragments/header :: header-css">-->
+<head>
+    <title>List owner details</title>
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<section layout:fragment="content">
+<div class="container-fluid mx-3 my-3">
+    <div class="card-body">
+        <table id="example" class="table table-bordered table-hover ">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Nagarikta Number</th>
+                <th>Contact Number</th>
+                <!--					<th>Land Info</th>-->
+                <th class="text-center">Action</th>
+            </tr>
+            <tbody>
+            <tr th:each="tempList: ${listOfHouseOwner}">
+                <td th:text="${tempList.id}"></td>
+                <td th:text="${tempList.firstName}+ ' '+${tempList.lastName}"></td>
+                <td th:text="${tempList.currentAddress}"></td>
+                <td th:text="${tempList.citizenShipNo}"></td>
+                <!--			<td th:text="${tempList.l}"></td>-->
+                <td><a th:href="@{/owners/edit(ownerId=${tempList.id})}">Edit</a>&nbsp;&nbsp;<a
+                        th:href="@{/owners/delete(ownerId=${tempList.id})}">Delete</a></td>
+
+            </tr>
+            </tbody>
+        </table>
+
+<!--        <table class="table table-striped table-bordered table-responsive" role="grid">-->
+<!--            <thead>-->
+<!--            <th>Owner Id</th>-->
+<!--            <th>kitta number</th>-->
+<!--            </thead>-->
+<!--            <tbody>-->
+<!--            <tr role="row" class="odd" th:each="tempLand:${check}">-->
+
+<!--                    <p th:each="tempList: ${listOfHouseOwner}" th:if="(${tempList.getId()}==${tempLand.getHouseOwner()})"-->
+<!--                       th:text="${tempList.getId()}"></p>-->
+<!--				<td th:text="${tempLand.getHouseOwner().getId()}"></td>-->
+
+<!--                <td th:text="${tempLand.getKittaNumber()}"></td>-->
+<!--            </tr>-->
+<!--            </tbody>-->
+<!--        </table>-->
+
+    </div>
+</div>
+</section>
+<!-- ======================================================================== -->
+
+
+<!--<div th:replace="fragments/footer :: footer"></div>-->
+
+</body>
+</html>

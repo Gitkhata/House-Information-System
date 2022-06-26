@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+          integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
+          crossorigin="anonymous">
+
+
+    <!--np date picker  -->
+    <link rel="stylesheet" th:href="@{/css/nepaliDatePicker.min.css}">
+    <link rel="stylesheet" href="https://unpkg.com/nepali-date-picker@2.0.1/dist/nepaliDatePicker.min.css"
+          crossorigin="anonymous"/>
+    <title>Add House Owner</title>
+</head>
+<body>
+<!--<div th:replace="fragments/header :: header"></div>-->
+<section layout:fragment="content">
+    <div class="container-fluid text-center">
+        <h3>Owner Info</h3>
+        <hr>
+    </div>
+    <div class="container-fluid mx-3 my-3">
+        <form th:action="@{/house-info/save}" th:object="${addHousInfo}" class="needs-validation" method="post"
+              enctype="multipart/form-data" novalidate>
+
+            <input type="hidden" th:field="*{id}"/>
+
+            <div class="form-row container-fluid">
+                <div class="col-md-4 mb-3">
+                    <label for="firstName">First name</label>
+                    <input type="text" class="form-control" id="firstName"
+                           aria-describedby="inputGroupPrepend" th:field="*{firstName}" placeholder="First name"
+                           value="Birtamod Nagarpalika" required>
+                    <div class="invalid-feedback">Required</div>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label for="lastName">Last name</label>
+                    <input type="text" class="form-control" id="lastName"
+                           placeholder="Last name" th:field="*{lastName}" value="Btm" required>
+                    <div class="valid-feedback">Looks good!</div>
+                    <div class="invalid-feedback"> ?</div>
+                </div>
+            </div>
+            <div>
+
+                <div class="form-row container-fluid">
+                    <div class="col-md-4 mb-3">
+                        <label for="address">Address</label>
+                        <input type="text" class="form-control" id="address"
+                               aria-describedby="inputGroupPrepend"
+                               placeholder="Current Address"
+                               th:field="*{currentAddress}" placeholfer="Wada no. 36, Hastinapur, Milkyway" required>
+                        <div class="invalid-feedback">Required</div>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label>Citizenship number</label>
+                        <input type="text" class="form-control"
+                               placeholder="Citizenship number" th:field="*{citizenShipNo}" value="1/4/69">
+                        <div class="valid-feedback">Looks good!</div>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label for="district">Citizenship Issued
+                            District</label>
+                        <select class="form-control selectpicker" th:field="*{citizenShipIssuedDistrict}" id="district"
+                                required>
+                            <option value="">Nothing Selected</option>
+                            <option th:each="citizenShipIssuedDistrict: ${T(com.jp.house.information.recording.system.form.District).values()}"
+                                    th:value="${citizenShipIssuedDistrict}"
+                                    th:text="${citizenShipIssuedDistrict}">District
+                            </option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="form-row container-fluid">
+                    <div class="col-md-4 mb-3">
+                        <label>Citizenship issued date</label>
+                        <input type="text" class="form-control date-picker"
+                               name="nepaliNagariktaIssuedDate"
+                               aria-describedby="inputGroupPrepend" placeholder="२०३६ साल"
+                               th:field="*{citizenShipIssuedDate}">
+                        <div class="valid-feedback">Looks good!</div>
+                        <div class="invalid-feedback">Required</div>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label>Contact number</label>
+                        <input type="text" class="form-control" name="contactNumber"
+                               aria-describedby="inputGroupPrepend" placeholder="98xxxx" value=""
+                               th:field="*{contactNumber}"
+                               required>
+                        <div class="valid-feedback">Looks good!</div>
+                        <div class="invalid-feedback">Required</div>
+                    </div>
+                </div>
+                <hr>
+
+                <div class="container-fluid text-center mt-3">
+                    <h3>Land Info</h3>
+                    <hr>
+                </div>
+
+                <div class="form-row container-fluid">
+                    <div class="col-md-4 mb-3">
+                        <label>Kitta number</label>
+                        <input type="text" class="form-control"
+                               aria-describedby="inputGroupPrepend" th:field="*{kittaNumber}"
+                               placeholder="Land plot/kitta number"
+                               required>
+                        <div class="invalid-feedback">Required</div>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label>Land area</label>
+                        <input type="text" class="form-control"
+                               placeholder="Land area" th:field="*{landArea}" value="">
+                        <div class="valid-feedback">Looks good!</div>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label>Municipality name</label>
+                        <input type="text" class="form-control"
+                               th:field="*{newMunicipalityName}" placeholder="Municipality name" required>
+                        <div class="valid-feedback">Looks good!</div>
+                        <div class="invalid-feedback">w?</div>
+                    </div>
+                </div>
+
+                <div class="form-row container-fluid">
+                    <div class="col-md-4 mb-3">
+                        <label for="wardNo">Ward number</label>
+                        <select class="form-control"
+                                th:field="*{newWardNo}" id="wardNo"
+                                required>
+                            <option value="">Select ward no.</option>
+                            <option th:each="newWardNo: ${T(com.jp.house.information.recording.system.form.WardNumber).values()}"
+                                    th:value="${newWardNo}"
+                                    th:text="${newWardNo}">Ward no.
+                            </option>
+
+                        </select>
+                        <div class="invalid-feedback">Required</div>
+                    </div>
+
+
+                </div>
+
+
+                <div class="container-fluid text-center mt-3">
+                    <h3>House Info</h3>
+                    <hr>
+                </div>
+
+                <div class="form-row container-fluid">
+                    <div class="col-md-4 mb-3">
+                        <label>House number</label>
+                        <input type="text" class="form-control"
+                               aria-describedby="inputGroupPrepend" th:field="*{houseNumber}" placeholder="01-01-01-36"
+                               required>
+                        <div class="invalid-feedback">Required</div>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label>House plinth</label>
+                        <input type="text" class="form-control"
+                               placeholder="Plinth" th:field="*{plinthArea}">
+                        <div class="valid-feedback">Looks good!</div>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label>Total storeyed</label>
+                        <input type="text" class="form-control"
+                               placeholder="Total storeyed" th:field="*{totalStoreyed}" value="Poudel" required>
+                        <div class="valid-feedback">Looks good!</div>
+                        <div class="invalid-feedback"> ?</div>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label>Area covered by house</label>
+                        <input type="text" class="form-control"
+                               placeholder="land covered by house" th:field="*{totalStoreyed}" value="Poudel" required>
+                        <div class="valid-feedback">Looks good!</div>
+                        <div class="invalid-feedback"> ?</div>
+                    </div>
+
+                </div>
+
+
+                <div class="container-fluid text-center mt-3">
+                    <h3>Construction Info</h3>
+                    <hr>
+                </div>
+
+                <div class="form-row container-fluid">
+                    <div class="col-md-4 mb-3">
+                        <label>Consultancy firm</label>
+                        <input type="text" class="form-control"
+                               aria-describedby="inputGroupPrepend" th:field="*{consultancyFirm}"
+                               placeholder="Consultancy firm"
+                               required>
+                        <div class="invalid-feedback">Required</div>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label>Construction started</label>
+                        <input type="text" class="form-control date-picker"
+                               placeholder="२०३६" th:field="*{constructionStarted}" value="">
+                        <div class="valid-feedback">Looks good!</div>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label>Construction completed on</label>
+                        <input type="text" class="form-control date-picker"
+                               placeholder="२०७२" th:field="*{constructionCompleted}" required>
+                        <div class="valid-feedback">Looks good!</div>
+                        <div class="invalid-feedback"> ?</div>
+                    </div>
+                </div>
+
+                <div class="container-fluid text-center mt-3">
+                    <h3>Book Info</h3>
+                    <hr>
+                </div>
+
+                <div class="form-row container-fluid">
+                    <div class="col-md-4 mb-3">
+                        <label>Book Color </label>
+                        <input type="text" class="form-control" th:field="*{bookColor}"
+                               aria-describedby="inputGroupPrepend" placeholder="हरियाे"
+                               required>
+                        <div class="invalid-feedback">Required</div>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label>Room no.</label>
+                        <input type="number" class="form-control"
+                               th:field="*{roomNo}" placeholder="६९" min="1", max="1000">
+                        <div class="valid-feedback">Looks good!</div>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label>Rack no</label>
+                        <input type="number" class="form-control"
+                               th:field="*{racko}" placeholder="९६" min="1" max="1000" required>
+                        <div class="valid-feedback">Looks good!</div>
+                        <div class="invalid-feedback"> ?</div>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label>Cabin no.</label>
+                        <input type="number" class="form-control"
+                               th:field="*{cabinNo}" placeholder="4" min="1" max="1000" required>
+                        <div class="valid-feedback">Looks good!</div>
+                        <div class="invalid-feedback"> ?</div>
+                    </div>
+
+                </div>
+
+
+            </div>
+            <input type="submit" class="btn btn-outline-info btn-block" value="Submit"/>
+        </form>
+    </div>
+    <!--		======================================================================================		-->
+
+    <!--    <script>-->
+    <!--        $('.date-picker').nepaliDatePicker({-->
+    <!--            dateFormat: "%D, %M %d, %y",-->
+    <!--            closeOnDateSelect: true-->
+    <!--        });-->
+    <!--    </script>-->
+
+    <script>
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (function () {
+            'use strict';
+            window.addEventListener('load',
+                function () {
+                    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                    var forms = document
+                        .getElementsByClassName('needs-validation');
+                    // Loop over them and prevent submission
+                    var validation = Array.prototype.filter.call(forms,
+                        function (form) {
+                            form.addEventListener('submit', function (
+                                event) {
+                                if (form.checkValidity() === false) {
+                                    event.preventDefault();
+                                    event.stopPropagation();
+                                }
+                                form.classList.add('was-validated');
+                            }, false);
+                        });
+                }, false);
+        })();
+
+    </script>
+
+    <!-- ============================================================== -->
+
+    <!-- nepali date picker-->
+    <!--<script th:src="@{/js/jquery.min.js}"></script>-->
+    <!--<script th:src="@{/js/jquery.nepaliDatePicker.min.js}"></script>-->
+    <!-- this should go after your </body> -->
+
+    <!-- this should go after your </body> -->
+    <link rel="stylesheet" href="https://unpkg.com/nepali-date-picker@2.0.1/dist/nepaliDatePicker.min.css"
+          crossorigin="anonymous"/>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/nepali-date-picker@2.0.1/dist/jquery.nepaliDatePicker.min.js"
+            crossorigin="anonymous"></script>
+
+
+    <script>
+        $('.date-picker').nepaliDatePicker({
+            dateFormat: '%D, %M %d, %y',
+            closeOnDateSelect: true,
+            // minDate: 'सोम, जेठ १०, २०७३',
+            // maxDate: 'मंगल, जेठ ३२, २०७३'
+        });
+
+    </script>
+
+
+</section>
+</body>
+</html>

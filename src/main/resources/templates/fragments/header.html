@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<head th:fragment="header-css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/4.1.0/css/bootstrap.min.css/}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/font-awesome/5.0.10/web-fonts-with-css/css/fontawesome-all.min.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/datatables/datatables.css}" rel="stylesheet">
+    <link rel="stylesheet"
+          th:href="@{/plugins/fontawesome-free/css/all.min.css}">
+    <!-- DataTables -->
+    <link rel="stylesheet"
+          th:href="@{/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css}">
+    <link rel="stylesheet"
+          th:href="@{/plugins/datatables-responsive/css/responsive.bootstrap4.min.css}">
+    <link rel="stylesheet"
+          th:href="@{/plugins/datatables-buttons/css/buttons.bootstrap4.min.css}">
+    <link rel="stylesheet" th:href="@{/css/adminlte.min.css}">
+    <title th:text="#{header.app.title}"></title>
+</head>
+
+<body>
+    <div th:fragment="header">
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+            <a class="navbar-brand" href="/home">House Information Record</a>
+            <div class="collapse navbar-collapse w-100 order-1 order-md-0 dual-collapse2" id="navbarNavAltMarkup">
+                <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+
+
+             <ul class="navbar-nav ml-auto">
+                        <li class="navbar-text"></li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/home}">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/owners/add}">Add Owner</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/owners}">List Owner</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+</body>
+
+</html>
